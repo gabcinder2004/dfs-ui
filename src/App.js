@@ -1,12 +1,13 @@
 import "./App.css";
 import React from "react";
-import { Box } from "@material-ui/core";
+import { Box, CircularProgress } from "@material-ui/core";
 import SimpleAccordion from "./components/Accordian";
 
 class App extends React.Component {
   state = {
     teams: [],
     windowWidth: window.innerWidth,
+    loaded: false,
   };
 
   handleResize = (e) => {
@@ -34,15 +35,18 @@ class App extends React.Component {
         team.lineup = lineup;
       }
 
-      this.setState({ teams: teams });
+      this.setState({ teams: teams, loaded: true });
     }
   }
 
   async getTeams() {
     let port = 3001;
-    let response = await fetch(`https://maddengamers-dfs-api.herokuapp.com/getTeams`, {
-      method: "GET",
-    });
+    let response = await fetch(
+      `https://maddengamers-dfs-api.herokuapp.com/getTeams`,
+      {
+        method: "GET",
+      }
+    );
 
     return response.json();
   }
@@ -60,7 +64,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { windowWidth, teams } = this.state;
+    const { windowWidth, teams, loaded } = this.state;
 
     return (
       <div className="App">
@@ -69,7 +73,11 @@ class App extends React.Component {
             <h1>Maddengamers DFS</h1>
             <h3 style={{ marginTop: -50 }}>Live Tracker</h3>
           </Box>
-          <SimpleAccordion teams={teams} windowWidth={windowWidth} />
+          {loaded != true ? (
+            <CircularProgress style={{color: 'white'}} />
+          ) : (
+            <SimpleAccordion teams={teams} windowWidth={windowWidth} />
+          )}
         </header>
       </div>
     );
