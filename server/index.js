@@ -6,7 +6,7 @@ var app = express();
 app.use(cors());
 
 const axios = require("axios");
-const port = 3001;
+const port = process.env.PORT ||  3001;
 
 app.get("/getTeams", async (req, res) => {
   try {
