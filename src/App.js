@@ -40,7 +40,7 @@ class App extends React.Component {
 
   async getTeams() {
     let port = 3001;
-    let response = await fetch(`http://localhost:${port}/getTeams`, {
+    let response = await fetch(`https://maddengamers-dfs-api.herokuapp/getTeams`, {
       method: "GET",
     });
 
@@ -50,7 +50,7 @@ class App extends React.Component {
   async getTeamLineup(id) {
     let port = 3001;
     let response = await fetch(
-      `http://localhost:${port}/getLineupForTeam?id=${id}`,
+      `https://maddengamers-dfs-api.herokuapp/getLineupForTeam?id=${id}`,
       {
         method: "GET",
       }
