@@ -39,7 +39,7 @@ class App extends React.Component {
   }
 
   async getTeams() {
-    let port = process.env.PORT || 3001;
+    let port = 3001;
     let response = await fetch(`http://localhost:${port}/getTeams`, {
       method: "GET",
     });
@@ -48,7 +48,7 @@ class App extends React.Component {
   }
 
   async getTeamLineup(id) {
-    let port = process.env.PORT || 3001;
+    let port = 3001;
     let response = await fetch(
       `http://localhost:${port}/getLineupForTeam?id=${id}`,
       {
