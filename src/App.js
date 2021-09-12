@@ -22,7 +22,7 @@ class App extends React.Component {
     this.dataRefresh();
     setInterval(() => {
       this.dataRefresh();
-    }, 10000);
+    }, 60000);
   }
 
   async dataRefresh() {
