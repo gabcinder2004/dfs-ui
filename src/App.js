@@ -27,15 +27,20 @@ class App extends React.Component {
   }
 
   async dataRefresh() {
-    console.log("Pulling data...");
+    let abortRefresh = false;
     let teams = await this.getTeams();
     if (teams.length > 0) {
       for (var team of teams) {
         let lineup = await this.getTeamLineup(team.id);
+        if(lineup == null){
+          abortRefresh = true;
+        }
         team.lineup = lineup;
       }
 
-      this.setState({ teams: teams, loaded: true });
+      if(!abortRefresh){
+        this.setState({ teams: teams, loaded: true });
+      }
     }
   }
 
