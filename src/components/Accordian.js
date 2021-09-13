@@ -6,6 +6,9 @@ import AccordionDetails from "@material-ui/core/AccordionDetails";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import SimpleCard from "./Card";
+import Grid from "@material-ui/core/Grid";
+import Paper from "@material-ui/core/Paper";
+import LineupGrid from "./Lineup";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -13,11 +16,12 @@ const useStyles = makeStyles((theme) => ({
   },
   heading: {
     fontSize: theme.typography.pxToRem(20),
-    flexBasis: "55%",
+    flexBasis: "100%",
     flexShrink: 0,
+    width:400
   },
   secondaryHeading: {
-    fontSize: theme.typography.pxToRem(20),
+    fontSize: theme.typography.pxToRem(16),
     color: theme.palette.text.secondary,
   },
 }));
@@ -25,11 +29,11 @@ const useStyles = makeStyles((theme) => ({
 export default function ControlledAccordions(props) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
+  const [spacing, setSpacing] = React.useState(1);
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
-
   const getAccordian = (team, windowWidth) => {
     return (
       <Accordion
@@ -42,17 +46,29 @@ export default function ControlledAccordions(props) {
           aria-controls={`${team.name}bh-content`}
           id={`${team.name}bh-header`}
         >
-          <Typography className={classes.heading}>
-            {team.rank}. {team.name}
-          </Typography>
-          <Typography className={classes.secondaryHeading}>
-            {team.score} points | {team.remainingTimeUnit} min
-          </Typography>
+          <Grid container justifyContent="center" spacing={spacing}>
+            <Grid item>
+              <Typography className={classes.heading}>
+                {team.rank}. {team.name}
+              </Typography>
+            </Grid>
+            <Grid item>
+              <Typography className={classes.secondaryHeading}>
+                {team.score} points
+              </Typography>
+            </Grid>
+            <Grid item>
+              <Typography className={classes.secondaryHeading}>
+                {team.remainingTimeUnit} min
+              </Typography>
+            </Grid>
+          </Grid>
         </AccordionSummary>
-        <AccordionDetails style={{paddingRight: '2.5%'}}>
-          {team.lineup.map((player) => {
+        <AccordionDetails style={{ paddingRight: "2.5%" }}>
+          <LineupGrid lineup={team.lineup} windowWidth={windowWidth} />
+          {/* {team.lineup.map((player) => {
             return <SimpleCard player={player} windowWidth={windowWidth} />;
-          })}
+          })} */}
         </AccordionDetails>
       </Accordion>
     );

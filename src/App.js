@@ -2,6 +2,7 @@ import "./App.css";
 import React from "react";
 import { Box, CircularProgress } from "@material-ui/core";
 import SimpleAccordion from "./components/Accordian";
+import Grid from "@material-ui/core/Grid";
 
 class App extends React.Component {
   state = {
@@ -76,7 +77,7 @@ class App extends React.Component {
         <header className="App-header">
           <Box>
             <h1>Maddengamers DFS</h1>
-            <h3 style={{ marginTop: -50 }}>Live Tracker</h3>
+            <h3 style={{ marginTop: "-5%" }}>Live Tracker</h3>
           </Box>
           {loaded != true ? (
             <CircularProgress style={{color: 'white'}} />
