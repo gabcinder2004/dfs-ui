@@ -8,6 +8,7 @@ import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles({
   root: {
+  
   },
   media: {
     height: 125,
@@ -23,6 +24,10 @@ export default function MediaCard(props) {
   const classes = useStyles();
 
   let nameSize = "h6";
+  let color = 'gray';
+  if(player.gameStatusType == "IN_PROGRESS"){
+    color="black";
+  }
   if (winWidth > 1500) {
     nameSize = "h2";
   } else if (winWidth > 1200) {
@@ -65,6 +70,9 @@ export default function MediaCard(props) {
         <CardContent className={classes.content}>
           <Typography gutterBottom variant="p" component={nameSize}>
             {player.firstName} {player.lastName}
+          </Typography>
+          <Typography gutterBottom variant="p" component="p" style={{color }}>
+            {player.gameStatus}
           </Typography>
         </CardContent>
         <CardContent className={classes.content}>
