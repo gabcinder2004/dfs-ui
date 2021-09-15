@@ -50,6 +50,9 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.only("xl")]: {
       fontSize: "15px",
       fontWeight: "bold",
+      whiteSpace:"nowrap",
+      overflow: "hidden",
+      textOverflow: "ellipsis",
     },
   },
   playerInfo: {
