@@ -10,14 +10,11 @@ import SimpleCard from "./Card";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1,
-  },
-  paper: {
-    height: 140,
-    width: 100,
+    flexWrap: "unset",
+    width: '100%'
   },
   control: {
-    padding: theme.spacing(2),
+    padding: theme.spacing(1),
   },
 }));
 
@@ -30,7 +27,7 @@ export default function LineupGrid(props) {
   };
 
   return (
-    <Grid container className={classes.root} spacing={1}>
+    <Grid container className={classes.root} id='test'>
       <Grid item xs={12}>
         <Grid container justifyContent="center" spacing={spacing}>
           {props.lineup.map((player) => {

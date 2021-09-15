@@ -33,7 +33,7 @@ class App extends React.Component {
     if (teams.length > 0) {
       for (var team of teams) {
         let lineup = await this.getTeamLineup(team.id);
-        if(lineup == null){
+        if(lineup == null || lineup == {}){
           abortRefresh = true;
         }
         team.lineup = lineup;

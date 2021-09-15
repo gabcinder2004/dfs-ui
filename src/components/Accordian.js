@@ -9,20 +9,42 @@ import SimpleCard from "./Card";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import LineupGrid from "./Lineup";
+import { Avatar, Hidden } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: "70%",
+    width: "80%",
   },
   heading: {
     fontSize: theme.typography.pxToRem(20),
     flexBasis: "100%",
     flexShrink: 0,
-    width:400
+    [theme.breakpoints.down("xs")]: {
+      fontSize: theme.typography.pxToRem(20),
+      marginLeft: theme.typography.pxToRem(10),
+      whiteSpace:"nowrap",
+      overflow: "hidden",
+      textOverflow: "ellipsis",
+    },
   },
   secondaryHeading: {
-    fontSize: theme.typography.pxToRem(16),
+    fontSize: theme.typography.pxToRem(20),
     color: theme.palette.text.secondary,
+    [theme.breakpoints.down("xs")]: {
+      fontSize: theme.typography.pxToRem(16),
+      color: "black",
+    },
+  },
+  avatar: {
+    [theme.breakpoints.down("xs")]: {
+      marginRight: theme.typography.pxToRem(5),
+      marginLeft: theme.typography.pxToRem(25),
+      width: 30,
+      height: 30,
+    },
+    [theme.breakpoints.up("lg")]: {
+      marginRight: 10,
+    },
   },
 }));
 
@@ -47,20 +69,35 @@ export default function ControlledAccordions(props) {
           id={`${team.name}bh-header`}
         >
           <Grid container justifyContent="center" spacing={spacing}>
-            <Grid item>
-              <Typography className={classes.heading}>
-                {team.rank}. {team.name}
-              </Typography>
+            <Grid item xs={1} md={3} lg={1}>
+              <Typography className={classes.heading}>{team.rank}.</Typography>
             </Grid>
-            <Grid item>
-              <Typography className={classes.secondaryHeading}>
-                {team.score} points
-              </Typography>
+            <Grid item xs={11} md={3} lg={3} style={{ textAlign: "left" }}>
+                <Avatar
+                  src={team.imageThumbUrl}
+                  className={classes.avatar}
+                  style={{ float: "left" }}
+                />
+              <Typography className={classes.heading}>{team.name}</Typography>
             </Grid>
-            <Grid item>
-              <Typography className={classes.secondaryHeading}>
-                {team.remainingTimeUnit} min
-              </Typography>
+            <Grid item xs={12} md={3} lg={2}>
+              <Hidden only="xs">
+                <Typography className={classes.secondaryHeading}>
+                  {team.score} pts
+                </Typography>
+              </Hidden>
+              <Hidden only={["lg", "xl"]}>
+                <Typography className={classes.secondaryHeading}>
+                  Points: {team.score}
+                </Typography>
+              </Hidden>
+            </Grid>
+            <Grid item xs={12} md={3} lg={2}>
+              
+                <Typography className={classes.secondaryHeading}>
+                  Time Left: {team.remainingTimeUnit} min
+                </Typography>
+              
             </Grid>
           </Grid>
         </AccordionSummary>
