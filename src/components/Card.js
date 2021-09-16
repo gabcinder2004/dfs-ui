@@ -94,7 +94,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function MediaCard(props) {
   const player = props.player;
-  const classes = useStyles();
+  const classes = useStyles(props);
 
   let nameSize = "h4";
   let color = "black";
@@ -107,6 +107,11 @@ export default function MediaCard(props) {
       def: "",
       misc: "",
     };
+
+    if (stats === null || stats === undefined) {
+      return organizedStats;
+    }
+
     for (let i = 0; i < stats.length; i++) {
       const stat = stats[i];
       const statId = stat["id"];
@@ -151,38 +156,23 @@ export default function MediaCard(props) {
 
   let stats = buildStatisticLine(player.stats);
 
-  if (player.firstName === "") {
-    return (
-      <Card className={classes.root}>
-        <CardActionArea>
-          <CardMedia
-            className={classes.media}
-            image="https://www.politicspa.com/wp-content/uploads/2013/02/Silhouette-question-mark.jpeg"
-          />
-          <CardContent className={classes.content}>
-            <Typography gutterBottom variant="p" component={nameSize}>
-              TBD
-            </Typography>
-          </CardContent>
-          <CardContent className={classes.content}>
-            <Typography variant="body2" color="textSecondary" component="p">
-              {player.position}
-            </Typography>
-            <Typography variant="body1" color="textPrimary" component="p">
-              $0
-            </Typography>
-            <Typography variant="body1" color="textPrimary" component="p">
-              0 pts
-            </Typography>
-          </CardContent>
-        </CardActionArea>
-      </Card>
-    );
+  if (player.lastName === "") {
+    player.lastName = "TBD";
+    player.points = 0;
+    player.salary = 0;
   }
 
   return (
     <Card className={classes.root} variant={"outlined"}>
-      <CardMedia className={classes.media} image={player.image} />
+      {player.lastName == "TBD" && (
+        <CardMedia
+          className={classes.media}
+          image="https://www.politicspa.com/wp-content/uploads/2013/02/Silhouette-question-mark.jpeg"
+        />
+      )}
+      {player.lastName != "TBD" && (
+        <CardMedia className={classes.media} image={player.image} />
+      )}
       <CardContent className={classes.content}>
         <Grid
           container
@@ -220,7 +210,7 @@ export default function MediaCard(props) {
               {player.gameStatus}
             </Typography>
           </Grid>
-          <Divider variant="middle" />
+          {player.lastName != "TBD" && (
           <Grid container justifyContent="center">
             {stats.pass != "" && (
               <Grid item xs={6}>
@@ -274,6 +264,7 @@ export default function MediaCard(props) {
               </Grid>
             )}
           </Grid>
+          )}
         </Grid>
       </CardContent>
       <CardContent className={classes.content}>
