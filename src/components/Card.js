@@ -6,13 +6,15 @@ import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
-import { Divider } from "@material-ui/core";
+import { Divider, Hidden } from "@material-ui/core";
+import Chip from "@material-ui/core/Chip";
+import statistics from "./statisticEnum";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     [theme.breakpoints.down("xs")]: {
       width: 250,
-      height: 300,
+      height: 345,
     },
     [theme.breakpoints.only("lg")]: {
       width: 140,
@@ -20,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     },
     [theme.breakpoints.only("xl")]: {
       width: 150,
-      height: 300,
+      height: 350,
     },
   },
   media: {
@@ -38,8 +40,11 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   playerName: {
+    display: "flex",
+    flexDirection: "column",
     [theme.breakpoints.only("xs")]: {
       fontSize: "16px",
+      fontWeight: "bold",
     },
 
     [theme.breakpoints.only("lg")]: {
@@ -50,8 +55,8 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.only("xl")]: {
       fontSize: "15px",
       fontWeight: "bold",
-      whiteSpace:"nowrap",
       overflow: "hidden",
+      whiteSpace: "",
       textOverflow: "ellipsis",
     },
   },
@@ -78,7 +83,12 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   content: {
-    height: 50,
+    [theme.breakpoints.down("xs")]: {
+      height: 70,
+    },
+    [theme.breakpoints.up("lg")]: {
+      height: 100,
+    },
   },
 }));
 
@@ -87,10 +97,59 @@ export default function MediaCard(props) {
   const classes = useStyles();
 
   let nameSize = "h4";
-  let color = "gray";
-  if (player.gameStatusType == "IN_PROGRESS") {
-    color = "black";
-  }
+  let color = "black";
+
+  const buildStatisticLine = (stats) => {
+    let organizedStats = {
+      pass: "",
+      run: "",
+      rec: "",
+      def: "",
+      misc: "",
+    };
+    for (let i = 0; i < stats.length; i++) {
+      const stat = stats[i];
+      const statId = stat["id"];
+      const ignoredStatIds = ["310"];
+      if (ignoredStatIds.includes(statId)) {
+        continue;
+      }
+
+      if (statId > 100 && statId < 200) {
+        organizedStats["pass"] += `${stat["quantity"]} ${
+          statistics[stat["id"]]
+        }\n`;
+      }
+
+      if (statId > 200 && statId < 300) {
+        organizedStats["run"] += `${stat["quantity"]} ${
+          statistics[stat["id"]]
+        }\n`;
+      }
+
+      if (statId > 300 && statId < 400) {
+        organizedStats["rec"] += `${stat["quantity"]} ${
+          statistics[stat["id"]]
+        }\n`;
+      }
+
+      if (statId > 900 && statId < 1000) {
+        organizedStats["def"] += `${stat["quantity"]} ${
+          statistics[stat["id"]]
+        }\n`;
+      }
+
+      if (statId < 100) {
+        organizedStats["misc"] += `${stat["quantity"]} ${
+          statistics[stat["id"]]
+        }\n`;
+      }
+    }
+
+    return organizedStats;
+  };
+
+  let stats = buildStatisticLine(player.stats);
 
   if (player.firstName === "") {
     return (
@@ -123,11 +182,15 @@ export default function MediaCard(props) {
 
   return (
     <Card className={classes.root} variant={"outlined"}>
-      <CardActionArea>
-        <CardMedia className={classes.media} image={player.image} />
-        <CardContent className={classes.content}>
-          <Grid container justifyContent="center">
-            <Grid item xs={12}>
+      <CardMedia className={classes.media} image={player.image} />
+      <CardContent className={classes.content}>
+        <Grid
+          container
+          justifyContent="center"
+          style={{ display: "flex", marginTop: "-10px" }}
+        >
+          <Grid item xs={12}>
+            {player.position != "DEF" && (
               <Typography
                 gutterBottom
                 variant="p"
@@ -135,51 +198,114 @@ export default function MediaCard(props) {
               >
                 {player.firstName} {player.lastName}
               </Typography>
-            </Grid>
-
-            <Grid item xs={12}>
+            )}
+            {player.position == "DEF" && (
               <Typography
                 gutterBottom
                 variant="p"
-                component="p"
-                style={{ color, fontSize: "11px" }}
+                className={classes.playerName}
               >
-                {player.gameStatus}
+                {player.lastName}
               </Typography>
-            </Grid>
+            )}
           </Grid>
-          <Grid
-            container
-            justifyContent="center"
-            className={classes.playerInfo}
-          >
-            <Grid item xs={12}>
-              {" "}
-              <Typography
-                variant="body2"
-                color="textSecondary"
-                component="p"
-              ></Typography>
-            </Grid>
-            <Grid item xs={12}>
-              <Typography variant="body1" color="textPrimary" component="p">
-                ${player.salary}
-              </Typography>
-            </Grid>
 
-            <Grid item xs={12}>
-              <Typography
-                variant="body1"
-                color="textPrimary"
-                component="p"
-                className={classes.playerScore}
-              >
-                {player.points} pts
-              </Typography>
-            </Grid>
+          <Grid item xs={12}>
+            <Typography
+              gutterBottom
+              variant="p"
+              component="p"
+              style={{ color, fontSize: "11px" }}
+            >
+              {player.gameStatus}
+            </Typography>
           </Grid>
-        </CardContent>
-      </CardActionArea>
+          <Divider variant="middle" />
+          <Grid container justifyContent="center">
+            {stats.pass != "" && (
+              <Grid item xs={6}>
+                <Typography
+                  gutterBottom
+                  variant="p"
+                  component="p"
+                  style={{ color, fontSize: "11px", whiteSpace: "pre-line" }}
+                >
+                  {stats.pass}
+                </Typography>
+              </Grid>
+            )}
+
+            {stats.run != "" && (
+              <Grid item xs={6}>
+                <Typography
+                  gutterBottom
+                  variant="p"
+                  component="p"
+                  style={{ color, fontSize: "11px", whiteSpace: "pre-line" }}
+                >
+                  {stats.run}
+                </Typography>
+              </Grid>
+            )}
+
+            {stats.rec != "" && (
+              <Grid item xs={6}>
+                <Typography
+                  gutterBottom
+                  variant="p"
+                  component="p"
+                  style={{ color, fontSize: "11px", whiteSpace: "pre-line" }}
+                >
+                  {stats.rec}
+                </Typography>
+              </Grid>
+            )}
+
+            {stats.def != "" && (
+              <Grid item xs={12}>
+                <Typography
+                  gutterBottom
+                  variant="p"
+                  component="p"
+                  style={{ color, fontSize: "11px", whiteSpace: "pre-line" }}
+                >
+                  {stats.def}
+                </Typography>
+              </Grid>
+            )}
+          </Grid>
+        </Grid>
+      </CardContent>
+      <CardContent className={classes.content}>
+        <Grid container justifyContent="center">
+          <Grid item xs={12} style={{}}>
+            <Typography
+              variant="body1"
+              color="textPrimary"
+              component="p"
+              className={classes.playerScore}
+            >
+              {player.points} pts
+            </Typography>
+          </Grid>
+          <Grid item xs={12} style={{ display: "contents" }}>
+            <Chip
+              label={player.position}
+              color="primary"
+              size="small"
+              variant="outlined"
+              style={{ marginRight: 5 }}
+            />
+            <Chip
+              label={`$${player.salary}`}
+              color="primary"
+              variant="outlined"
+              size="small"
+              style={{ marginLeft: 5 }}
+            />
+          </Grid>
+        </Grid>
+      </CardContent>
     </Card>
   );
 }
