@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
       fontSize: theme.typography.pxToRem(20),
       marginLeft: theme.typography.pxToRem(10),
       whiteSpace:"nowrap",
-      overflow: "hidden",
+      
       textOverflow: "ellipsis",
     },
   },
