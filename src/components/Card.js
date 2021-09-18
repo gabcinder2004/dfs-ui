@@ -11,6 +11,26 @@ import Chip from "@material-ui/core/Chip";
 import statistics from "./statisticEnum";
 
 const useStyles = makeStyles((theme) => ({
+  '@global':{
+    "@keyframes burn": {
+      "from": {
+        textShadow:
+          "-.1em 0 .3em #fefcc9, .1em -.1em .3em #feec85, -.2em -.2em .4em #ffae34, .2em -.3em .3em #ec760c, -.2em -.4em .4em #cd4606, .1em -.5em .7em #973716, .1em -.7em .7em #451b0e;",
+      },
+      "45%": {
+        textShadow:
+          ".1em -.2em .5em #fefcc9, .15em 0 .4em #feec85, -.1em -.25em .5em #ffae34, .15em -.45em .5em #ec760c, -.1em -.5em .6em #cd4606, 0 -.8em .6em #973716, .2em -1em .8em #451b0e; ",
+      },
+      "70%": {
+        textShadow:
+          " -.1em 0 .3em #fefcc9, .1em -.1em .3em #feec85, -.2em -.2em .6em #ffae34, .2em -.3em .4em #ec760c, -.2em -.4em .7em #cd4606, .1em -.5em .7em #973716, .1em -.7em .9em #451b0e; ",
+      },
+      "to": {
+        textShadow:
+          "-.1em -.2em .6em #fefcc9, -.15em 0 .6em #feec85, .1em -.25em .6em #ffae34, -.15em -.45em .5em #ec760c, .1em -.5em .6em #cd4606, 0 -.8em .6em #973716, -.2em -1em .8em #451b0e; ",
+      },
+    },
+  },
   root: {
     [theme.breakpoints.down("xs")]: {
       width: 250,
@@ -24,6 +44,7 @@ const useStyles = makeStyles((theme) => ({
       width: 150,
       height: 350,
     },
+
   },
   media: {
     [theme.breakpoints.up("xs")]: {
@@ -81,6 +102,7 @@ const useStyles = makeStyles((theme) => ({
       fontSize: "24px",
       fontWeight: "bold",
     },
+    // animation: "burn 1.5s linear infinite alternate;",
   },
   content: {
     [theme.breakpoints.down("xs")]: {
@@ -96,7 +118,6 @@ export default function MediaCard(props) {
   const player = props.player;
   const classes = useStyles(props);
 
-  let nameSize = "h4";
   let color = "black";
 
   const buildStatisticLine = (stats) => {
@@ -211,59 +232,59 @@ export default function MediaCard(props) {
             </Typography>
           </Grid>
           {player.lastName != "TBD" && (
-          <Grid container justifyContent="center">
-            {stats.pass != "" && (
-              <Grid item xs={6}>
-                <Typography
-                  gutterBottom
-                  variant="p"
-                  component="p"
-                  style={{ color, fontSize: "11px", whiteSpace: "pre-line" }}
-                >
-                  {stats.pass}
-                </Typography>
-              </Grid>
-            )}
+            <Grid container justifyContent="center">
+              {stats.pass != "" && (
+                <Grid item xs={6}>
+                  <Typography
+                    gutterBottom
+                    variant="p"
+                    component="p"
+                    style={{ color, fontSize: "11px", whiteSpace: "pre-line" }}
+                  >
+                    {stats.pass}
+                  </Typography>
+                </Grid>
+              )}
 
-            {stats.run != "" && (
-              <Grid item xs={6}>
-                <Typography
-                  gutterBottom
-                  variant="p"
-                  component="p"
-                  style={{ color, fontSize: "11px", whiteSpace: "pre-line" }}
-                >
-                  {stats.run}
-                </Typography>
-              </Grid>
-            )}
+              {stats.run != "" && (
+                <Grid item xs={6}>
+                  <Typography
+                    gutterBottom
+                    variant="p"
+                    component="p"
+                    style={{ color, fontSize: "11px", whiteSpace: "pre-line" }}
+                  >
+                    {stats.run}
+                  </Typography>
+                </Grid>
+              )}
 
-            {stats.rec != "" && (
-              <Grid item xs={6}>
-                <Typography
-                  gutterBottom
-                  variant="p"
-                  component="p"
-                  style={{ color, fontSize: "11px", whiteSpace: "pre-line" }}
-                >
-                  {stats.rec}
-                </Typography>
-              </Grid>
-            )}
+              {stats.rec != "" && (
+                <Grid item xs={6}>
+                  <Typography
+                    gutterBottom
+                    variant="p"
+                    component="p"
+                    style={{ color, fontSize: "11px", whiteSpace: "pre-line" }}
+                  >
+                    {stats.rec}
+                  </Typography>
+                </Grid>
+              )}
 
-            {stats.def != "" && (
-              <Grid item xs={12}>
-                <Typography
-                  gutterBottom
-                  variant="p"
-                  component="p"
-                  style={{ color, fontSize: "11px", whiteSpace: "pre-line" }}
-                >
-                  {stats.def}
-                </Typography>
-              </Grid>
-            )}
-          </Grid>
+              {stats.def != "" && (
+                <Grid item xs={12}>
+                  <Typography
+                    gutterBottom
+                    variant="p"
+                    component="p"
+                    style={{ color, fontSize: "11px", whiteSpace: "pre-line" }}
+                  >
+                    {stats.def}
+                  </Typography>
+                </Grid>
+              )}
+            </Grid>
           )}
         </Grid>
       </CardContent>
