@@ -10,13 +10,15 @@ import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import LineupGrid from "./Lineup";
 import { Avatar, Hidden } from "@material-ui/core";
+import ChipsArray from "./ChipsArray";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "80%",
   },
   heading: {
-    fontSize: theme.typography.pxToRem(20),
+    fontSize: theme.typography.pxToRem(24),
+    fontFamily: "Calibri",
     flexBasis: "100%",
     flexShrink: 0,
     [theme.breakpoints.down("xs")]: {
@@ -28,8 +30,18 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   secondaryHeading: {
+    fontFamily: "Calibri",
     fontSize: theme.typography.pxToRem(20),
     color: theme.palette.text.secondary,
+    [theme.breakpoints.down("xs")]: {
+      fontSize: theme.typography.pxToRem(16),
+      color: "black",
+    },
+  },
+  points: {
+    fontFamily: "Calibri",
+    fontSize: theme.typography.pxToRem(24),
+    color: "black",
     [theme.breakpoints.down("xs")]: {
       fontSize: theme.typography.pxToRem(16),
       color: "black",
@@ -53,22 +65,26 @@ export default function ControlledAccordions(props) {
   const [expanded, setExpanded] = React.useState(false);
   const [spacing, setSpacing] = React.useState(1);
 
-
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
 
   const getAccordian = (team, windowWidth) => {
-    const calculateRemainingSalary = (lineup) => {
+    const getAggregatedInformation = (lineup) => {
       let salary = 200;
-      for(var player of lineup){
+      let projPts = 0;
+      for (var player of lineup) {
+        if (player.projectedPoints != "") {
+          projPts += player.projectedPoints;
+        }
         salary -= player.salary;
       }
 
-      return salary;
+      return { remainingSalary: salary, projPts };
     };
 
-    const remainingSalary = calculateRemainingSalary(team.lineup);
+    const info = getAggregatedInformation(team.lineup);
+
     return (
       <Accordion
         expanded={expanded === team.name}
@@ -81,10 +97,15 @@ export default function ControlledAccordions(props) {
           id={`${team.name}bh-header`}
         >
           <Grid container justifyContent="center" spacing={spacing}>
-            <Grid item xs={1} md={3} lg={1}>
-              <Typography className={classes.heading}>{team.rank}.</Typography>
+            <Grid item xs={1} md={3} lg={2}>
+              <Typography
+                className={classes.heading}
+                style={{ textAlign: "right", paddingRight: "10px" }}
+              >
+                #{team.rank}{" "}
+              </Typography>
             </Grid>
-            <Grid item xs={11} md={3} lg={2} style={{ textAlign: "left" }}>
+            <Grid item xs={11} md={3} lg={3} style={{ textAlign: "left" }}>
               <Avatar
                 src={team.imageThumbUrl}
                 className={classes.avatar}
@@ -92,26 +113,46 @@ export default function ControlledAccordions(props) {
               />
               <Typography className={classes.heading}>{team.name}</Typography>
             </Grid>
-            <Grid item xs={12} md={3} lg={2}>
+            {/* <Grid item xs={12} lg={5}>
+              <ChipsArray data={chipsData} />
+            </Grid> */}
+            <Grid item xs={12} md={3} lg={1}>
               <Hidden only="xs">
-                <Typography className={classes.secondaryHeading}>
+                <Typography className={classes.points}>
                   {team.score} pts
                 </Typography>
               </Hidden>
               <Hidden only={["lg", "xl"]}>
-                <Typography className={classes.secondaryHeading} style={{textAlign:"left", paddingLeft: '25%'}}>
-                <strong>Points:</strong> {team.score}
+                <Typography
+                  className={classes.secondaryHeading}
+                  style={{ textAlign: "left", paddingLeft: "25%" }}
+                >
+                  <strong>Points:</strong> {team.score}
                 </Typography>
               </Hidden>
             </Grid>
             <Grid item xs={12} md={3} lg={2}>
-              <Typography className={classes.secondaryHeading} style={{textAlign:"left", paddingLeft: '25%'}}>
+              <Typography
+                className={classes.secondaryHeading}
+                style={{ textAlign: "left", paddingLeft: "25%" }}
+              >
                 <strong>Time Left:</strong> {team.remainingTimeUnit} min
               </Typography>
             </Grid>
             <Grid item xs={12} md={3} lg={2}>
-              <Typography className={classes.secondaryHeading} style={{textAlign:"left", paddingLeft: '25%'}}>
-              <strong>Salary Left:</strong> ${remainingSalary}
+              <Typography
+                className={classes.secondaryHeading}
+                style={{ textAlign: "left", paddingLeft: "25%" }}
+              >
+                <strong>Salary Left:</strong> ${info.remainingSalary}
+              </Typography>
+            </Grid>
+            <Grid item xs={12} md={3} lg={2}>
+              <Typography
+                className={classes.secondaryHeading}
+                style={{ textAlign: "left", paddingLeft: "25%" }}
+              >
+                <strong>Proj Pts:</strong> {info.projPts}
               </Typography>
             </Grid>
           </Grid>

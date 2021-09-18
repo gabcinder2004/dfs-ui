@@ -102,7 +102,6 @@ const useStyles = makeStyles((theme) => ({
       fontSize: "24px",
       fontWeight: "bold",
     },
-    // animation: "burn 1.5s linear infinite alternate;",
   },
   content: {
     [theme.breakpoints.down("xs")]: {
