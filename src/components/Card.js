@@ -180,6 +180,7 @@ export default function MediaCard(props) {
     player.lastName = "TBD";
     player.points = 0;
     player.salary = 0;
+    player.draftPercent = 0;
   }
 
   return (
@@ -301,14 +302,14 @@ export default function MediaCard(props) {
           </Grid>
           <Grid item xs={12} style={{ display: "contents" }}>
             <Chip
-              label={player.position}
+              label={`$${player.salary}`}
               color="primary"
-              size="small"
               variant="outlined"
-              style={{ marginRight: 5 }}
+              size="small"
+              style={{ marginLeft: 0 }}
             />
             <Chip
-              label={`$${player.salary}`}
+              label={`${player.draftPercent}%`}
               color="primary"
               variant="outlined"
               size="small"
