@@ -152,7 +152,7 @@ export default function ControlledAccordions(props) {
                 className={classes.secondaryHeading}
                 style={{ textAlign: "left", paddingLeft: "25%" }}
               >
-                <strong>Proj Pts:</strong> {info.projPts}
+                <strong>Proj Pts:</strong> {info.projPts.toFixed(2)}
               </Typography>
             </Grid>
           </Grid>
