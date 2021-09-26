@@ -73,6 +73,10 @@ export default function ControlledAccordions(props) {
     const getAggregatedInformation = (lineup) => {
       let salary = 200;
       let projPts = 0;
+      if (lineup === undefined || lineup === {}) {
+        return { remainingSalary: salary, projPts };
+      }
+
       for (var player of lineup) {
         if (player.projectedPoints != "") {
           projPts += player.projectedPoints;
