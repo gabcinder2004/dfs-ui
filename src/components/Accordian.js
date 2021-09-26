@@ -73,9 +73,6 @@ export default function ControlledAccordions(props) {
     const getAggregatedInformation = (lineup) => {
       let salary = 200;
       let projPts = 0;
-      if (typeof lineup === 'object' ) {
-        return { remainingSalary: salary, projPts };
-      }
 
       console.log(lineup);
       for (var player of lineup) {
