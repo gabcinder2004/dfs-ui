@@ -77,6 +77,7 @@ export default function ControlledAccordions(props) {
         return { remainingSalary: salary, projPts };
       }
 
+      console.log(lineup);
       for (var player of lineup) {
         if (player.projectedPoints != "") {
           projPts += player.projectedPoints;
