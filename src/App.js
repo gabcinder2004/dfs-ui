@@ -30,35 +30,44 @@ class App extends React.Component {
   async dataRefresh() {
     let abortRefresh = false;
     let teams = await this.getTeams();
+    if (teams == null) {
+      return;
+    }
+    
     if (teams.length > 0) {
       for (var team of teams) {
         let lineup = await this.getTeamLineup(team.id);
-        if(lineup == null || lineup === {} || (typeof lineup === 'object' && lineup.err != null )){
+        if (
+          lineup == null ||
+          lineup === {} ||
+          (typeof lineup === "object" && lineup.err != null)
+        ) {
           abortRefresh = true;
         }
         team.lineup = lineup;
       }
 
-      if(!abortRefresh){
+      if (!abortRefresh) {
         this.setState({ teams: teams, loaded: true });
       }
     }
   }
 
   async getTeams() {
-    let port = 3001;
     let response = await fetch(
       `https://maddengamers-dfs-api.herokuapp.com/getTeams`,
       {
         method: "GET",
       }
     );
-
-    return response.json();
+    if (response.ok) {
+      return response.json();
+    } else {
+      return null;
+    }
   }
 
   async getTeamLineup(id) {
-    let port = 3001;
     let response = await fetch(
       `https://maddengamers-dfs-api.herokuapp.com/getLineupForTeam?id=${id}`,
       {
@@ -66,7 +75,11 @@ class App extends React.Component {
       }
     );
 
-    return response.json();
+    if (response.ok) {
+      return response.json();
+    } else {
+      return null;
+    }
   }
 
   render() {
@@ -80,7 +93,7 @@ class App extends React.Component {
             <h3 style={{ marginTop: "-5%" }}>Week 5 Live Tracker</h3>
           </Box>
           {loaded != true ? (
-            <CircularProgress style={{color: 'white'}} />
+            <CircularProgress style={{ color: "white" }} />
           ) : (
             <SimpleAccordion teams={teams} windowWidth={windowWidth} />
           )}
