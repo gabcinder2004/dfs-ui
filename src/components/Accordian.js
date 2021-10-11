@@ -11,6 +11,7 @@ import Paper from "@material-ui/core/Paper";
 import LineupGrid from "./Lineup";
 import { Avatar, Hidden } from "@material-ui/core";
 import ChipsArray from "./ChipsArray";
+import WhatshotOutlinedIcon from "@material-ui/icons/WhatshotOutlined";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -73,16 +74,19 @@ export default function ControlledAccordions(props) {
     const getAggregatedInformation = (lineup) => {
       let salary = 200;
       let projPts = 0;
-
-      console.log(lineup);
+      let bigPlayStatus = false;
       for (var player of lineup) {
         if (player.projectedPoints != "") {
           projPts += player.projectedPoints;
         }
         salary -= player.salary;
+
+        if (player.hadBigPlay) {
+          bigPlayStatus = true;
+        }
       }
 
-      return { remainingSalary: salary, projPts };
+      return { remainingSalary: salary, projPts, bigPlayStatus };
     };
 
     const info = getAggregatedInformation(team.lineup);
@@ -113,7 +117,11 @@ export default function ControlledAccordions(props) {
                 className={classes.avatar}
                 style={{ float: "left" }}
               />
-              <Typography className={classes.heading}>{team.name}</Typography>
+              <Typography className={classes.heading}>
+                {team.name}
+                
+                {info.bigPlayStatus == true && <WhatshotOutlinedIcon style={{ color: "red" }} />}
+              </Typography>
             </Grid>
             {/* <Grid item xs={12} lg={5}>
               <ChipsArray data={chipsData} />

@@ -9,6 +9,7 @@ import Grid from "@material-ui/core/Grid";
 import { Divider, Hidden } from "@material-ui/core";
 import Chip from "@material-ui/core/Chip";
 import statistics from "./statisticEnum";
+import WhatshotOutlinedIcon from "@material-ui/icons/WhatshotOutlined";
 
 const useStyles = makeStyles((theme) => ({
   '@global':{
@@ -298,6 +299,8 @@ export default function MediaCard(props) {
               className={classes.playerScore}
             >
               {player.points} pts
+              {player.hadBigPlay == true && <WhatshotOutlinedIcon style={{ color: "red" }} />}
+
             </Typography>
           </Grid>
           <Grid item xs={12} style={{ display: "contents" }}>
