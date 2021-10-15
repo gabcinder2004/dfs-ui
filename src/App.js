@@ -90,7 +90,7 @@ class App extends React.Component {
         <header className="App-header">
           <Box>
             <h1>Maddengamers DFS</h1>
-            <h3 style={{ marginTop: "-5%" }}>Week 5 Live Tracker</h3>
+            <h3 style={{ marginTop: "-5%" }}>Week 6 Live Tracker</h3>
           </Box>
           {loaded != true ? (
             <CircularProgress style={{ color: "white" }} />
