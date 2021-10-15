@@ -89,7 +89,7 @@ class App extends React.Component {
 
   filterTeamList(searchCriteria) {
     if (!searchCriteria || searchCriteria == "") {
-      return this.setState({ filteredTeams: this.state.teams });
+      return this.setState({ filteredTeams: this.state.teams, searchValue: '' });
     }
 
     let firstName = searchCriteria.split(" ")[0];
