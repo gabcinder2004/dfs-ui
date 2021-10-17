@@ -53,6 +53,9 @@ class App extends React.Component {
         ) {
           abortRefresh = true;
         }
+
+        console.log("---------------");
+        console.log(lineup);
         for (var player of lineup) {
           if (player.id != "") {
             if (players.findIndex((p) => p.id == player.id) == -1) {
@@ -125,7 +128,6 @@ class App extends React.Component {
   render() {
     const { windowWidth, teams, loaded, players, playerNames, filteredTeams } =
       this.state;
-    console.log(playerNames);
     return (
       <div className="App">
         <header className="App-header">
