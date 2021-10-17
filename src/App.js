@@ -100,11 +100,13 @@ class App extends React.Component {
 
     let firstName = searchCriteria.split(" ")[0];
     let lastName = searchCriteria.split(" ")[1];
+    let jr = searchCriteria.split(" ")[2] ?? "";
+    let combined = lastName + " " + jr
 
     let filteredTeams = [];
     for (var team of this.state.teams) {
       for (var player of team.lineup) {
-        if (player.firstName == firstName && player.lastName == lastName) {
+        if (player.firstName == firstName && player.lastName == combined.trim()) {
           filteredTeams.push(team);
         }
       }
