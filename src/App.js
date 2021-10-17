@@ -54,17 +54,17 @@ class App extends React.Component {
           abortRefresh = true;
         }
 
-        console.log("---------------");
-        console.log(lineup);
-        for (var player of lineup) {
-          if (player.id != "") {
-            if (players.findIndex((p) => p.id == player.id) == -1) {
-              players.push(player);
+        if (lineup != null) {
+          for (var player of lineup) {
+            if (player.id != "") {
+              if (players.findIndex((p) => p.id == player.id) == -1) {
+                players.push(player);
+              }
             }
           }
-        }
 
-        team.lineup = lineup;
+          team.lineup = lineup;
+        }
       }
 
       if (!abortRefresh) {
@@ -92,7 +92,10 @@ class App extends React.Component {
 
   filterTeamList(searchCriteria) {
     if (!searchCriteria || searchCriteria == "") {
-      return this.setState({ filteredTeams: this.state.teams, searchValue: '' });
+      return this.setState({
+        filteredTeams: this.state.teams,
+        searchValue: "",
+      });
     }
 
     let firstName = searchCriteria.split(" ")[0];
