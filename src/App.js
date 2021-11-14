@@ -138,7 +138,7 @@ class App extends React.Component {
         <header className="App-header">
           <Box>
             <h1>Maddengamers DFS</h1>
-            <h3 style={{ marginTop: "-5%" }}>Week 9 Live Tracker</h3>
+            <h3 style={{ marginTop: "-5%" }}>Week 10 Live Tracker</h3>
             {loaded == true && (
               <Autocomplete
                 options={playerNames}
