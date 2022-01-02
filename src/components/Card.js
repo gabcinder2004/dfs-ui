@@ -189,7 +189,7 @@ export default function MediaCard(props) {
       {player.lastName == "TBD" && (
         <CardMedia
           className={classes.media}
-          image="https://www.politicspa.com/wp-content/uploads/2013/02/Silhouette-question-mark.jpeg"
+          image="https://www.creativefabrica.com/wp-content/uploads/2020/07/02/NFL-Football-Ball-Head-Graphics-4525744-1-312x208.png"
         />
       )}
       {player.lastName != "TBD" && (
