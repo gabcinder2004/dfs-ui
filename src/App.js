@@ -1,8 +1,10 @@
 import "./App.css";
 import React from "react";
-import { Box, CircularProgress } from "@material-ui/core";
+import { Box, CircularProgress, Paper, Typography, Avatar } from "@material-ui/core";
 import SimpleAccordion from "./components/Accordian";
 import Grid from "@material-ui/core/Grid";
+import WhatshotOutlinedIcon from "@material-ui/icons/WhatshotOutlined";
+
 import SearchBar from "material-ui-search-bar";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import TextField from "@material-ui/core/TextField";
@@ -14,6 +16,7 @@ class App extends React.Component {
     players: [],
     windowWidth: window.innerWidth,
     searchValue: "",
+    selectedTeam: 0,
     loaded: false,
   };
 
@@ -78,7 +81,7 @@ class App extends React.Component {
 
   async getTeams() {
     let response = await fetch(
-      `https://maddengamers-dfs-api.herokuapp.com/getTeams`,
+      `http://localhost:3001/getTeams`,
       {
         method: "GET",
       }
@@ -117,7 +120,7 @@ class App extends React.Component {
 
   async getTeamLineup(id) {
     let response = await fetch(
-      `https://maddengamers-dfs-api.herokuapp.com/getLineupForTeam?id=${id}`,
+      `http://localhost:3001/getLineupForTeam?id=${id}`,
       {
         method: "GET",
       }
@@ -130,39 +133,72 @@ class App extends React.Component {
     }
   }
 
+  teamOnClick = (e) => {
+    console.log(e.target.id);
+    this.setState({ selectedTeam: e.target.id });
+  }
+
+
   render() {
-    const { windowWidth, teams, loaded, players, playerNames, filteredTeams } =
+    const { windowWidth, teams, loaded, selectedTeam, players, playerNames, filteredTeams } =
       this.state;
+    // console.log(teams);
     return (
       <div className="App">
-        <header className="App-header">
-          <Box>
+        <Typography variant="h3" component="div" gutterBottom>
+          Maddengamers DFS
+          <Typography variant="h5" display="block" gutterBottom>
+            Week 10
+          </Typography>
+        </Typography>
+
+        {loaded == true &&
+          <Box sx={{ flexGrow: 1, padding: 5 }}>
+            <Grid container spacing={5}>
+              <Grid item xs={3}>
+                {teams.map((team, index) => {
+                  return (<Paper id={index} elevation={2} style={{ "fontSize": 24, marginTop: 10, paddingBottom: 10, height: '25px' }} onClick={this.teamOnClick}>
+                    <div style={{
+                      display: "flex",
+                      justifyContent: "space-between"
+                    }}>
+                      <Avatar
+                        src={team.imageThumbUrl}
+                        id={index}
+                        style={{ width: 30, height: 30, marginLeft: 5, marginTop: 2 }}
+                      />
+                      <Typography id={index} style={{ width: '80%' }}>
+                        {team.name}
+                      </Typography>
+                      <Typography
+                        id={index}
+                        style={{ width: '20%' }}
+                      >
+                        <strong>{team.score}</strong>
+                      </Typography>
+                    </div>
+                  </Paper>)
+                })}
+
+              </Grid>
+              <Grid item xs={9} style={{ marginTop: 10 }}>
+                <Paper>{teams[selectedTeam].name}</Paper>
+              </Grid>
+            </Grid>
+          </Box>}
+
+        {loaded == false && <CircularProgress />}
+        {/* <Box>
             <h1>Maddengamers DFS</h1>
             <h3 style={{ marginTop: "-5%" }}>Week 18 Live Tracker</h3>
-            {loaded == true && (
-              <Autocomplete
-                options={playerNames}
-                onChange={(event, newValue) => {
-                  this.filterTeamList(newValue);
-                }}
-                style={{ backgroundColor: "white", marginBottom: "25px" }}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    variant="filled"
-                    label="Search Player"
-                  />
-                )}
-              />
-            )}
           </Box>
           {loaded != true ? (
             <CircularProgress style={{ color: "white" }} />
           ) : (
-            <SimpleAccordion teams={filteredTeams} windowWidth={windowWidth} />
-          )}
-        </header>
-      </div>
+            // <SimpleAccordion teams={filteredTeams} windowWidth={windowWidth} />
+            "hello"
+          )} */}
+      </div >
     );
   }
 }
