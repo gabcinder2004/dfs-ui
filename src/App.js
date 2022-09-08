@@ -29,7 +29,7 @@ class App extends React.Component {
         url = 'https://maddengamers-dfs-api.herokuapp.com';
     }
   
-    return url;
+    return "https://maddengamers-dfs-api.herokuapp.com";
   }
   
 
