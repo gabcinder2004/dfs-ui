@@ -17,6 +17,20 @@ class App extends React.Component {
     loaded: false,
   };
 
+  async getBaseUrl () {
+    let url;
+    switch(process.env.NODE_ENV) {
+      case 'development':
+        url = 'http://localhost:3001';
+        break;
+      default:
+        url = 'https://maddengamers-dfs-api.herokuapp.com';
+    }
+  
+    return url;
+  }
+  
+
   handleResize = (e) => {
     this.setState({ windowWidth: window.innerWidth });
   };
@@ -30,12 +44,14 @@ class App extends React.Component {
     this.dataRefresh();
     setInterval(() => {
       this.dataRefresh();
-    }, 60000);
+    }, 65000);
   }
 
   async dataRefresh() {
     let abortRefresh = false;
     let teams = await this.getTeams();
+    let week = await this.getWeek();
+    console.log(week);
     let players = [];
     let playerNames = [];
 
@@ -70,7 +86,7 @@ class App extends React.Component {
       if (!abortRefresh) {
         playerNames = players.map((p) => p.firstName + " " + p.lastName);
 
-        this.setState({ teams: teams, loaded: true, players, playerNames });
+        this.setState({ teams: teams, week: week.week, loaded: true, players, playerNames });
         this.filterTeamList(this.state.searchValue);
       }
     }
@@ -78,7 +94,21 @@ class App extends React.Component {
 
   async getTeams() {
     let response = await fetch(
-      `https://maddengamers-dfs-api.herokuapp.com/getTeams`,
+      `${await this.getBaseUrl()}/getTeams`,
+      {
+        method: "GET",
+      }
+    );
+    if (response.ok) {
+      return response.json();
+    } else {
+      return null;
+    }
+  }
+
+  async getWeek() {
+    let response = await fetch(
+      `${await this.getBaseUrl()}/getWeek`,
       {
         method: "GET",
       }
@@ -117,7 +147,7 @@ class App extends React.Component {
 
   async getTeamLineup(id) {
     let response = await fetch(
-      `https://maddengamers-dfs-api.herokuapp.com/getLineupForTeam?id=${id}`,
+      `${await this.getBaseUrl()}/getLineupForTeam?id=${id}`,
       {
         method: "GET",
       }
@@ -131,14 +161,14 @@ class App extends React.Component {
   }
 
   render() {
-    const { windowWidth, teams, loaded, players, playerNames, filteredTeams } =
+    const { windowWidth, week, loaded, playerNames, filteredTeams } =
       this.state;
     return (
       <div className="App">
         <header className="App-header">
           <Box>
             <h1>Maddengamers DFS</h1>
-            <h3 style={{ marginTop: "-5%" }}>Week 1 Live Tracker</h3>
+            <h3 style={{ marginTop: "-5%" }}>Week {week} Live Tracker</h3>
             {loaded == true && (
               <Autocomplete
                 options={playerNames}
