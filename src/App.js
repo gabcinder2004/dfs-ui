@@ -53,7 +53,6 @@ class App extends React.Component {
     let abortRefresh = false;
     let teams = await this.getTeams();
     let week = await this.getWeek();
-    console.log(week);
     let players = [];
     let playerNames = [];
 
