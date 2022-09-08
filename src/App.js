@@ -19,8 +19,8 @@ class App extends React.Component {
 
   async getBaseUrl () {
     let url;
-    console.log("NODE ENV")
-    console.log(process.env.NODE_ENV);
+    console.log("API URL")
+    console.log(process.env.API_URL);
     switch(process.env.NODE_ENV) {
       case 'development':
         url = 'http://localhost:3001';
