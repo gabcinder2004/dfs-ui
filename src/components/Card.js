@@ -12,9 +12,9 @@ import statistics from "./statisticEnum";
 import WhatshotOutlinedIcon from "@material-ui/icons/WhatshotOutlined";
 
 const useStyles = makeStyles((theme) => ({
-  '@global':{
+  "@global": {
     "@keyframes burn": {
-      "from": {
+      from: {
         textShadow:
           "-.1em 0 .3em #fefcc9, .1em -.1em .3em #feec85, -.2em -.2em .4em #ffae34, .2em -.3em .3em #ec760c, -.2em -.4em .4em #cd4606, .1em -.5em .7em #973716, .1em -.7em .7em #451b0e;",
       },
@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
         textShadow:
           " -.1em 0 .3em #fefcc9, .1em -.1em .3em #feec85, -.2em -.2em .6em #ffae34, .2em -.3em .4em #ec760c, -.2em -.4em .7em #cd4606, .1em -.5em .7em #973716, .1em -.7em .9em #451b0e; ",
       },
-      "to": {
+      to: {
         textShadow:
           "-.1em -.2em .6em #fefcc9, -.15em 0 .6em #feec85, .1em -.25em .6em #ffae34, -.15em -.45em .5em #ec760c, .1em -.5em .6em #cd4606, 0 -.8em .6em #973716, -.2em -1em .8em #451b0e; ",
       },
@@ -45,7 +45,6 @@ const useStyles = makeStyles((theme) => ({
       width: 150,
       height: 350,
     },
-
   },
   media: {
     [theme.breakpoints.up("xs")]: {
@@ -183,6 +182,7 @@ export default function MediaCard(props) {
     player.salary = 0;
     player.draftPercent = 0;
   }
+  // player.draftPercent = (player.draftPercent/100) * 27;
 
   return (
     <Card className={classes.root} variant={"outlined"}>
@@ -299,8 +299,9 @@ export default function MediaCard(props) {
               className={classes.playerScore}
             >
               {player.points} pts
-              {player.hadBigPlay == true && <WhatshotOutlinedIcon style={{ color: "red" }} />}
-
+              {player.hadBigPlay == true && (
+                <WhatshotOutlinedIcon style={{ color: "red" }} />
+              )}
             </Typography>
           </Grid>
           <Grid item xs={12} style={{ display: "contents" }}>
@@ -312,7 +313,7 @@ export default function MediaCard(props) {
               style={{ marginLeft: 0 }}
             />
             <Chip
-              label={`${player.draftPercent}%`}
+              label={`${((player.draftPercent / 100) * 27).toFixed(0)} picked`}
               color="primary"
               variant="outlined"
               size="small"
