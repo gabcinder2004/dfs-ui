@@ -61,6 +61,7 @@ class App extends React.Component {
       for (var team of teams) {
         let lineup = await this.getTeamLineup(team.id);
         if (
+          lineup == null ||
           lineup.players == null ||
           lineup.players === {} ||
           (typeof lineup.players === "object" && lineup.players.err != null)
