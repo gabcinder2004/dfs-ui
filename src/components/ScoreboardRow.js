@@ -132,13 +132,13 @@ export default function ScoreboardRow(props) {
             />
             <ListItemSecondaryAction classes={{ root: classes.rowContainer }}>
               <ListItemText
-                primary={team.score}
+                primary={team.score + " pts"}
                 secondary={
                   <React.Fragment>
                     <Typography
                       style={{ fontStyle: "italic", fontSize: "12px" }}
                     >
-                      {team.lineup.stats.projectedPoints.toFixed(2)}
+                      {"Proj: " + team.lineup.stats.projectedPoints.toFixed(2)}
                     </Typography>
                   </React.Fragment>
                 }

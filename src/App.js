@@ -27,7 +27,7 @@ class App extends React.Component {
         url = "https://maddengamers-dfs-api.herokuapp.com";
     }
 
-    return "http://localhost:3001";
+    return "https://maddengamers-dfs-api.herokuapp.com";
   }
 
   handleResize = (e) => {
