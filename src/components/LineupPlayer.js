@@ -55,10 +55,11 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: "-20px",
   },
   unknownPlayerAvatar: {
-    width: "60px",
-    height: "75px",
+    width: "85px",
+    height: "100px",
     paddingRight: "10px",
     paddingLeft: "10px",
+    marginLeft: "-10px",
   },
   chipLabel: {
     marginLeft: "-8px",
