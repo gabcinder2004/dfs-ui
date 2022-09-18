@@ -167,7 +167,7 @@ export default function LineupPlayer(props) {
               secondary={
                 <React.Fragment>
                   <Typography classes={{ root: classes.projectedPoints }}>
-                    {"Projected: " + player.projectedPoints.toFixed(2) + " pts"}
+                    {"Projected: " + Number(player.projectedPoints).toFixed(2) + " pts"}
                   </Typography>
                   <Chip
                     size="small"
