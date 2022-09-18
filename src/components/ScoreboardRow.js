@@ -110,7 +110,7 @@ export default function ScoreboardRow(props) {
             </ListItemAvatar>
             <ListItemText
               primary={
-                <Typography className={info.hadBigPlay ? "fire" : ""}>
+                <Typography className={info.bigPlayStatus ? "fire" : ""}>
                   {team.name}
                 </Typography>
               }
