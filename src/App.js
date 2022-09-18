@@ -1,9 +1,9 @@
 import "./App.css";
 import React from "react";
 import { Box, CircularProgress } from "@material-ui/core";
-import SimpleAccordion from "./components/Accordian";
-import Grid from "@material-ui/core/Grid";
-import SearchBar from "material-ui-search-bar";
+import MainContent from "./components/MainContent";
+import SearchBar from "./components/MainContent";
+
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import TextField from "@material-ui/core/TextField";
 
@@ -17,19 +17,18 @@ class App extends React.Component {
     loaded: false,
   };
 
-  async getBaseUrl () {
+  async getBaseUrl() {
     let url;
-    switch(process.env.NODE_ENV) {
-      case 'development':
-        url = 'http://localhost:3001';
+    switch (process.env.NODE_ENV) {
+      case "development":
+        url = "http://localhost:3001";
         break;
       default:
-        url = 'https://maddengamers-dfs-api.herokuapp.com';
+        url = "https://maddengamers-dfs-api.herokuapp.com";
     }
-  
-    return "https://maddengamers-dfs-api.herokuapp.com";
+
+    return "http://localhost:3001";
   }
-  
 
   handleResize = (e) => {
     this.setState({ windowWidth: window.innerWidth });
@@ -62,15 +61,16 @@ class App extends React.Component {
       for (var team of teams) {
         let lineup = await this.getTeamLineup(team.id);
         if (
-          lineup == null ||
-          lineup === {} ||
-          (typeof lineup === "object" && lineup.err != null)
+          lineup.players == null ||
+          lineup.players === {} ||
+          (typeof lineup.players === "object" && lineup.players.err != null)
         ) {
           abortRefresh = true;
         }
 
-        if (lineup != null) {
-          for (var player of lineup) {
+        if (lineup != null && lineup.players != null) {
+          var lineupPlayers = lineup.players;
+          for (var player of lineupPlayers) {
             if (player.id != "") {
               if (players.findIndex((p) => p.id == player.id) == -1) {
                 players.push(player);
@@ -85,19 +85,22 @@ class App extends React.Component {
       if (!abortRefresh) {
         playerNames = players.map((p) => p.firstName + " " + p.lastName);
 
-        this.setState({ teams: teams, week: week.week, loaded: true, players, playerNames });
+        this.setState({
+          teams: teams,
+          week: week.week,
+          loaded: true,
+          players,
+          playerNames,
+        });
         this.filterTeamList(this.state.searchValue);
       }
     }
   }
 
   async getTeams() {
-    let response = await fetch(
-      `${await this.getBaseUrl()}/getTeams`,
-      {
-        method: "GET",
-      }
-    );
+    let response = await fetch(`${await this.getBaseUrl()}/getTeams`, {
+      method: "GET",
+    });
     if (response.ok) {
       return response.json();
     } else {
@@ -106,12 +109,9 @@ class App extends React.Component {
   }
 
   async getWeek() {
-    let response = await fetch(
-      `${await this.getBaseUrl()}/getWeek`,
-      {
-        method: "GET",
-      }
-    );
+    let response = await fetch(`${await this.getBaseUrl()}/getWeek`, {
+      method: "GET",
+    });
     if (response.ok) {
       return response.json();
     } else {
@@ -130,12 +130,15 @@ class App extends React.Component {
     let firstName = searchCriteria.split(" ")[0];
     let lastName = searchCriteria.split(" ")[1];
     let jr = searchCriteria.split(" ")[2] ?? "";
-    let combined = lastName + " " + jr
+    let combined = lastName + " " + jr;
 
     let filteredTeams = [];
     for (var team of this.state.teams) {
       for (var player of team.lineup) {
-        if (player.firstName == firstName && player.lastName == combined.trim()) {
+        if (
+          player.firstName == firstName &&
+          player.lastName == combined.trim()
+        ) {
           filteredTeams.push(team);
         }
       }
@@ -160,15 +163,14 @@ class App extends React.Component {
   }
 
   render() {
-    const { windowWidth, week, loaded, playerNames, filteredTeams } =
+    const {windowWidth , week, loaded, playerNames, filteredTeams } =
       this.state;
     return (
       <div className="App">
         <header className="App-header">
-          <Box>
-            <h1>Maddengamers DFS</h1>
-            <h3 style={{ marginTop: "-5%" }}>Week {week} Live Tracker</h3>
-            {loaded == true && (
+            <h3 style={{marginTop:'10px'}}>Maddengamers DFS</h3>
+            {/* <h3 style={{ marginTop: "-5%" }}>Week {week} Live Tracker</h3> */}
+            {/* {loaded == true && (
               <Autocomplete
                 options={playerNames}
                 onChange={(event, newValue) => {
@@ -183,12 +185,11 @@ class App extends React.Component {
                   />
                 )}
               />
-            )}
-          </Box>
+            )} */}
           {loaded != true ? (
             <CircularProgress style={{ color: "white" }} />
           ) : (
-            <SimpleAccordion teams={filteredTeams} windowWidth={windowWidth} />
+            <MainContent teams={filteredTeams} windowWidth={windowWidth}/>
           )}
         </header>
       </div>
