@@ -120,7 +120,7 @@ export default function ScoreboardRow(props) {
                     classes={{ label: classes.chipLabel }}
                     size="small"
                     icon={<AttachMoneyIcon />}
-                    label={200 - info.remainingSalary + " spent"}
+                    label={info.remainingSalary + " left"}
                   />
                   <Chip
                     size="small"
