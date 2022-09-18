@@ -317,7 +317,7 @@ export default function MediaCard(props) {
               color="primary"
               variant="outlined"
               size="small"
-              style={{ marginLeft: 5 }}
+              style={{ marginLeft: 2 }}
             />
           </Grid>
         </Grid>
