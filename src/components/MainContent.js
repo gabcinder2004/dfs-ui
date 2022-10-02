@@ -21,6 +21,17 @@ export default function MainContent(props) {
     setSelectedPlayer(team);
   };
 
+  const getSelectedPlayerTeam = () => {
+    if(!selectedPlayer){
+      return null;
+    }
+
+    for (var i = 0; i < teams.length; i++) {
+      if (teams[i].name == selectedPlayer.name) return teams[i];
+    }
+    return null;
+  }
+
   const getMainContent = () => {
     return (
       <Grid
@@ -29,7 +40,7 @@ export default function MainContent(props) {
         justifyContent="space-between"
         direction="row"
         spacing={5}
-        classes={{root: classes.root}}
+        classes={{ root: classes.root }}
       >
         <Grid item lg={1} />
         <Grid item lg={4}>
@@ -40,7 +51,7 @@ export default function MainContent(props) {
           />{" "}
         </Grid>
         <Grid item lg={6}>
-          <LineupScreen teams={teams} selectedPlayer={selectedPlayer} />
+          <LineupScreen teams={teams} selectedPlayer={getSelectedPlayerTeam()} />
         </Grid>
         <Grid item lg={1} />
       </Grid>

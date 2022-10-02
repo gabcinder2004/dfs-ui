@@ -1,11 +1,7 @@
 import "./App.css";
 import React from "react";
-import { Box, CircularProgress } from "@material-ui/core";
+import { CircularProgress } from "@material-ui/core";
 import MainContent from "./components/MainContent";
-import SearchBar from "./components/MainContent";
-
-import Autocomplete from "@material-ui/lab/Autocomplete";
-import TextField from "@material-ui/core/TextField";
 
 class App extends React.Component {
   state = {

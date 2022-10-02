@@ -1,7 +1,6 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
-import Grid from "@material-ui/core/Grid";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -13,6 +12,8 @@ import ListSubheader from "@material-ui/core/ListSubheader";
 import Chip from "@material-ui/core/Chip";
 import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 import TimerIcon from "@material-ui/icons/Timer";
+
+
 const useStyles = makeStyles((theme) => ({
   root: {
     paddingTop: "0px",
@@ -90,7 +91,7 @@ export default function ScoreboardRow(props) {
       return { remainingSalary: salary, projPts, bigPlayStatus };
     };
 
-    const onPlayerClick = (team) => {
+    const onPlayerClick = () => {
       props.onPlayerClick(props.team);
     };
 
