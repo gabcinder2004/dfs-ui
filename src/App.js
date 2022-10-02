@@ -145,29 +145,34 @@ class App extends React.Component {
   }
 
   async getTeamLineup(id) {
-    let response = await fetch(
-      `${await this.getBaseUrl()}/getLineupForTeam?id=${id}`,
-      {
-        method: "GET",
-      }
-    );
+    try {
+      let response = await fetch(
+        `${await this.getBaseUrl()}/getLineupForTeam?id=${id}`,
+        {
+          method: "GET",
+        }
+      );
 
-    if (response.ok) {
-      return response.json();
-    } else {
-      return null;
+      if (response.ok) {
+        return response.json();
+      } else {
+        return null;
+      }
+    }
+    catch (err) {
+      console.log(err);
     }
   }
 
   render() {
-    const {windowWidth , week, loaded, playerNames, filteredTeams } =
+    const { windowWidth, week, loaded, playerNames, filteredTeams } =
       this.state;
     return (
       <div className="App">
         <header className="App-header">
-            <h3 style={{marginTop:'10px'}}>Maddengamers DFS</h3>
-            {/* <h3 style={{ marginTop: "-5%" }}>Week {week} Live Tracker</h3> */}
-            {/* {loaded == true && (
+          <h3 style={{ marginTop: '10px' }}>Maddengamers DFS</h3>
+          {/* <h3 style={{ marginTop: "-5%" }}>Week {week} Live Tracker</h3> */}
+          {/* {loaded == true && (
               <Autocomplete
                 options={playerNames}
                 onChange={(event, newValue) => {
@@ -186,7 +191,7 @@ class App extends React.Component {
           {loaded != true ? (
             <CircularProgress style={{ color: "white" }} />
           ) : (
-            <MainContent teams={filteredTeams} windowWidth={windowWidth}/>
+            <MainContent teams={filteredTeams} windowWidth={windowWidth} />
           )}
         </header>
       </div>
