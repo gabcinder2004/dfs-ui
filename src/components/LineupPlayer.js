@@ -172,7 +172,7 @@ export default function LineupPlayer(props) {
                   <Chip
                     size="small"
                     label={
-                      ((player.draftPercent / 100) * 27).toFixed(0) + " picked"
+                      ((player.draftPercent / 100) * 19).toFixed(0) + " picked"
                     }
                     classes={{root: classes.chipPickedRoot}}
                   />
